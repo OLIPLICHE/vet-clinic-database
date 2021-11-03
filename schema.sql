@@ -1,5 +1,3 @@
-CREATE DATABASE vet_clinic;
-
 CREATE TABLE animals(
   id INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
