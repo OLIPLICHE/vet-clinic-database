@@ -42,3 +42,7 @@ WHERE name IN ('Devimon', 'Plantmon');
 UPDATE animals
 SET owners_id = 4
 WHERE name IN ('Charmander', 'Squirtle', 'Blossom');
+
+UPDATE animals 
+SET owner_id=5 
+WHERE name IN ('Angemon','Boarmon');
