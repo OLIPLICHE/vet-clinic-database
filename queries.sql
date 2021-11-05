@@ -65,3 +65,85 @@ animals.escape_attempts FROM animals INNER JOIN owners ON owners.id = animals.ow
 
 SELECT owners.full_name, 
 COUNT(animals.name) AS total_animals FROM owners JOIN animals ON animals.owners_id=owners.id GROUP BY owners.full_name ORDER BY total_animals DESC LIMIT 1;
+
+/**Write queries to answer the following**/
+SELECT v.date as visit_date, 
+a.name, 
+vt.name from visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+WHERE vt.name='William Tatcher' 
+ORDER BY visit_date 
+DESC LIMIT 1;
+
+SELECT COUNT(a.name) from visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+WHERE vt.name='Stephanie Mendez';
+
+SELECT species.name AS species_type, 
+vt.name AS vet_name from specializations s 
+JOIN species ON s.species_id=species.id FULL 
+JOIN vets vt ON s.vets_id=vt.id;
+
+SELECT v.date as visit_date, 
+a.name AS animal_name, 
+vt.name as vet_name from visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+WHERE vt.name='Stephanie Mendez' 
+AND v.date 
+BETWEEN '2020-04-01' AND '2020-08-30';
+
+SELECT a.name, 
+COUNT(a.name) AS count_visits FROM visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+GROUP BY a.name 
+HAVING COUNT(a.name) = (
+  SELECT MAX(myf.count_visits)
+  FROM 
+	( select a.name, COUNT(a.name) AS count_visits from visits v 
+  JOIN animals a ON v.animals_id=a.id 
+  JOIN vets vt ON v.vets_id=vt.id 
+  GROUP BY a.name) 
+AS myf
+);
+
+SELECT v.date as visit_day, 
+a.name AS animal_name, 
+vt.name AS vet_name FROM visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+WHERE vt.name='Maisy Smith' 
+ORDER BY v.date 
+LIMIT 1;
+
+SELECT v.date as visit_day, 
+a.name AS animal_name, 
+vt.name AS vet_name 
+FROM 
+visits v 
+JOIN animals a ON v.animals_id=a.id 
+JOIN vets vt ON v.vets_id=vt.id 
+ORDER BY v.date 
+DESC LIMIT 1;
+
+SELECT vets.name, 
+s.species_id 
+FROM 
+vets 
+LEFT JOIN specializations s ON s.vets_id=vets.id 
+WHERE species_id IS NULL;
+
+SELECT species.name, 
+COUNT(species.name) AS count_species 
+FROM 
+vets 
+LEFT JOIN specializations s ON s.vets_id=vets.id 
+JOIN animals ON animals.species_id=s.species_id 
+JOIN species ON species.id=s.species_id 
+WHERE vets.name='Maisy Smith' 
+GROUP BY species.name 
+ORDER BY count_species 
+DESC LIMIT 1;
